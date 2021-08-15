@@ -4,14 +4,22 @@ require("dotenv").config();
 const { getAllWallpaper, isAuth } = require("./util");
 
 globalThis.fetch = fetch;
+globalThis.wallpapers = [];
 
 const express = require("express");
 const app = express();
 const port = 3000;
 
+setInterval(() => {
+  globalThis.wallpapers = [];
+}, 1000 * 3600 * 1);
+
 app.get("/wallpapers", async (req, res) => {
-  if (isAuth(req)) {
+  if (globalThis.wallpapers.length > 0) {
+    res.send(globalThis.wallpapers);
+  } else if (isAuth(req)) {
     const data = await getAllWallpaper();
+    globalThis.wallpapers = data;
     res.send(data);
   } else {
     res.send({

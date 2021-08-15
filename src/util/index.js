@@ -11,7 +11,13 @@ async function getAllWallpaper() {
       collectionId: process.env.COLLECTION_ID,
       perPage: 365,
     });
-    return res.response.results;
+    console.log(res.response.results);
+    return res.response.results.map((i) => {
+      return {
+        id: i.id,
+        url: i.urls.full,
+      };
+    });
   } catch (error) {
     return {
       status: "fail",
