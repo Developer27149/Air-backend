@@ -16,6 +16,9 @@ async function getAllWallpaper() {
       return {
         id: i.id,
         url: i.urls.full,
+        smImgUrl: i.urls.small,
+        description: i.description,
+        createAt: i.created_at,
       };
     });
   } catch (error) {
