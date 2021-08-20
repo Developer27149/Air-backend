@@ -1,7 +1,7 @@
 // const express = require("express");
 const fetch = require("node-fetch");
 require("dotenv").config();
-const { getAllWallpaper, isAuth } = require("./util");
+const { getAllWallpaper, isAuth, getAMsg } = require("./util");
 
 globalThis.fetch = fetch;
 globalThis.wallpapers = [];
@@ -21,6 +21,19 @@ app.get("/wallpapers", async (req, res) => {
     const data = await getAllWallpaper();
     globalThis.wallpapers = data;
     res.send(data);
+  } else {
+    res.send({
+      code: 404,
+      message: "Bye",
+    });
+  }
+});
+
+app.get("/msg", (req, res) => {
+  if (isAuth(req)) {
+    res.send({
+      data: getAMsg(),
+    });
   } else {
     res.send({
       code: 404,

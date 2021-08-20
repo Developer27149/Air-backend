@@ -15,7 +15,8 @@ async function getAllWallpaper() {
     return res.response.results.map((i) => {
       return {
         id: i.id,
-        url: i.urls.full,
+        url: i.urls.full + "&w=1920",
+        rawUrl: i.urls.raw,
         smImgUrl: i.urls.small,
         description: i.description,
         createAt: i.created_at,
@@ -32,7 +33,35 @@ const isAuth = (req) => {
   return req?.query?.name === "aaron";
 };
 
+const msgList = [
+  "照顾好自己",
+  "潜龙勿用",
+  "模棱两可让人不喜",
+  "熬夜伤神",
+  "事和人都有两面",
+  "说你所做的，做你所说的",
+  "迟则生变",
+  "勿妄自菲薄，无用",
+  "或曾遗憾，不必后悔",
+  "更多的宽容给家人",
+  "控制自己",
+  "免费最贵",
+  "学会拒绝",
+  "也许你可以养一只狗子",
+  "知易行难",
+  "聊天不必辩论",
+  "寻找自我价值",
+  "等价交换是宇宙法则",
+  "坚持原则",
+  "常联系",
+];
+const getAMsg = () => {
+  const randomNum = ~~(Math.random() * msgList.length);
+  return msgList[randomNum];
+};
+
 module.exports = {
   getAllWallpaper,
   isAuth,
+  getAMsg,
 };
