@@ -1,10 +1,11 @@
 // const express = require("express");
 const fetch = require("node-fetch");
 require("dotenv").config();
-const { getAllWallpaper, isAuth, getAMsg } = require("./util");
-
+const { getAllWallpaper, isAuth, getAMsg, getWeather } = require("./util");
+const axios = require("axios");
 globalThis.fetch = fetch;
 globalThis.wallpapers = [];
+globalThis.weatherCache = new Map();
 
 const express = require("express");
 const app = express();
@@ -34,6 +35,20 @@ app.get("/msg", (req, res) => {
     res.send({
       data: getAMsg(),
     });
+  } else {
+    res.send({
+      code: 404,
+      message: "Bye",
+    });
+  }
+});
+
+app.get("/weather", async (req, res) => {
+  if (isAuth(req)) {
+    const location = req.query.location;
+    const data = await getWeather(location);
+    console.log(data);
+    res.send(data);
   } else {
     res.send({
       code: 404,

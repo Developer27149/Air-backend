@@ -1,3 +1,4 @@
+const axios = require("axios");
 const { createApi } = require("unsplash-js");
 
 const Aaron = createApi({
@@ -5,13 +6,15 @@ const Aaron = createApi({
   fetch: globalThis.fetch,
 });
 
+// const client = axios
+
 async function getAllWallpaper() {
   try {
     const res = await Aaron.collections.getPhotos({
       collectionId: process.env.COLLECTION_ID,
       perPage: 365,
     });
-    console.log(res.response.results);
+    // console.log(res.response.results);
     return res.response.results.map((i) => {
       return {
         id: i.id,
@@ -60,8 +63,36 @@ const getAMsg = () => {
   return msgList[randomNum];
 };
 
+const getWeather = async (location) => {
+  const weather = globalThis.weatherCache.get(location);
+  const time = new Date().getTime();
+  if (weather && time - weather.time < 3 * 3600 * 1000) {
+    console.log("get data from cache");
+    return weather;
+  } else {
+    try {
+      const url = `https://devapi.qweather.com/v7/weather/now?key=${process.env.HEFENG_KEY}&location=${location}`;
+      const data = await globalThis.fetch(url, { timeout: 6000 });
+      const jsonData = await data.json();
+      const result = {
+        time: new Date().getTime(),
+        temp: jsonData.now.temp,
+        msg: "success",
+        text: jsonData.now.text,
+      };
+      if (globalThis.weatherCache.size > 100) globalThis.weatherCache.clear();
+      globalThis.weatherCache.set(location, result);
+      return result;
+    } catch (error) {
+      console.log(error.message);
+      return { msg: "error from util" };
+    }
+  }
+};
+
 module.exports = {
   getAllWallpaper,
   isAuth,
   getAMsg,
+  getWeather,
 };
