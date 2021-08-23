@@ -1,16 +1,21 @@
-name: Air-backend Action
+name: Air-backend Action With Node.js
 on: [push]
 jobs:
-  Explore-GitHub-Actions:
+  build:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
     steps:
-      - run: echo "start running github actions:"
-      - run: echo "this job is now running on a ${{runner.os}} server hosted by github.thanks."
-      - name: Check out repository code
-        uses: actions/checkout@v2
-      - run: echo "the ${{github.repository}} repo has been cloned to the runner"
-      - run: echo "the workflow is now ready to test your code on the runner"
-      - name: List files in the repo
-        run: |
-          ls ${{ github.workspace }}
-      - run: echo "The job's status is ${{ job.status }}"
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+      - run: npm ci
+      - run: npm run dev
+      - run: echo "Nice work,your server is running."
