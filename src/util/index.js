@@ -1,4 +1,3 @@
-const axios = require("axios");
 const { createApi } = require("unsplash-js");
 
 const Aaron = createApi({

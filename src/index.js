@@ -6,6 +6,8 @@ globalThis.wallpapers = [];
 globalThis.weatherCache = new Map();
 const express = require("express");
 const router = require("./routes");
+const compression = require('compression');
+const helmet = require('helmet');
 const app = express();
 const port = 3000;
 
@@ -13,6 +15,8 @@ setInterval(() => {
   globalThis.wallpapers = [];
 }, 1000 * 3600 * 1);
 
+app.use(helmet()); // 常见漏洞保护
+app.use(compression()); // compress all routes
 app.use(express.json());
 app.use(router);
 
