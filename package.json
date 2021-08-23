@@ -13,6 +13,7 @@
     "firebase": "^8.10.0",
     "helmet": "^4.6.0",
     "node-fetch": "^2.6.1",
+    "pm2": "^5.1.1",
     "unsplash-js": "^7.0.15"
   },
   "scripts": {
