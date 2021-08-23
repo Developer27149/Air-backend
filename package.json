@@ -18,5 +18,6 @@
   },
   "scripts": {
     "dev": "pm2 start ./src/index.js"
-  }
+  },
+  "homepage": "https://youyiqin.github.io/air-backend"
 }
