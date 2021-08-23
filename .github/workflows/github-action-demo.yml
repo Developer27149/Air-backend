@@ -15,7 +15,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-          cache: "npm"
-      - run: npm ci
-      - run: npm run dev
+          cache: "yarn"
+      - name: Install dependencies
+          run: yarn
+      - run: yarn dev
       - run: echo "Nice work,your server is running."
