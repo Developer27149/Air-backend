@@ -1,16 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const { getAllWallpaper, isAuth, getAMsg, getWeather } = require("../util");
-
-router.use((req, res, next) => {
-  if (isAuth(req)) {
-    next();
-  } else {
-    res.send({
-      test: "Sorry man.",
-    });
-  }
-});
+const jwt = require("jsonwebtoken");
+const { getAllWallpaper, getAMsg, getWeather } = require("../util");
 
 router.get("/wallpapers", async (req, res) => {
   if (globalThis.wallpapers.length > 0) {
@@ -23,8 +14,15 @@ router.get("/wallpapers", async (req, res) => {
 });
 
 router.get("/msg", (req, res) => {
+  console.log(req.user, "is token and user");
   res.send({
     data: getAMsg(),
+  });
+});
+
+router.get("/test", (req, res) => {
+  res.send({
+    msg: "ok",
   });
 });
 
@@ -36,9 +34,35 @@ router.get("/weather", async (req, res) => {
 });
 
 router.post("/login", (req, res) => {
-  console.log(req.body);
+  const { user } = req.body;
+  if (!user) return res.statusCode(401);
+  const token =
+    "Bearer " +
+    jwt.sign(
+      {
+        user: "aaron",
+      },
+      process.env.JWT,
+      {
+        expiresIn: 3600 * 24 * 7,
+      }
+    );
+  res.json({
+    status: "success",
+    token,
+  });
+});
+
+router.get("/todo", (req, res) => {
+  // 从 token 中获取 user_id ，返回此用户数据
   res.send({
-    msg: "login msg",
+    data: [
+      {
+        isFinish: false,
+        text: "coding...",
+        date: new Date().toLocaleString(),
+      },
+    ],
   });
 });
 

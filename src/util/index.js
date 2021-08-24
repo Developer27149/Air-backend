@@ -31,8 +31,8 @@ async function getAllWallpaper() {
   }
 }
 
-const isAuth = (req) => {
-  return req?.query?.name === "aaron";
+const isAuth = (url) => {
+  return url?.query?.app === "air";
 };
 
 const msgList = [
