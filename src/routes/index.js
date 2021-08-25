@@ -14,7 +14,6 @@ router.get("/wallpapers", async (req, res) => {
 });
 
 router.get("/msg", (req, res) => {
-  console.log(req.user, "is token and user");
   res.send({
     data: getAMsg(),
   });
