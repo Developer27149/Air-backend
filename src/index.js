@@ -16,7 +16,7 @@ app.use(
     secret: process.env.JWT,
     algorithms: ["HS256"],
   }).unless({
-    path: ["/login", "/msg", "/daily_wallpaper"],
+    path: ["/login", "/msg", "/daily_wallpaper", "/weather", "/wallpapers"],
   })
 );
 app.use(helmet()); // 常见漏洞保护

@@ -63,29 +63,20 @@ const getAMsg = () => {
 };
 
 const getWeather = async (location) => {
-  const weather = globalThis.weatherCache.get(location);
-  const time = new Date().getTime();
-  if (weather && time - weather.time < 3 * 3600 * 1000) {
-    console.log("get data from cache");
-    return weather;
-  } else {
-    try {
-      const url = `https://devapi.qweather.com/v7/weather/now?key=${process.env.HEFENG_KEY}&location=${location}`;
-      const data = await globalThis.fetch(url, { timeout: 6000 });
-      const jsonData = await data.json();
-      const result = {
-        time: new Date().getTime(),
-        temp: jsonData.now.temp,
-        msg: "success",
-        text: jsonData.now.text,
-      };
-      if (globalThis.weatherCache.size > 100) globalThis.weatherCache.clear();
-      globalThis.weatherCache.set(location, result);
-      return result;
-    } catch (error) {
-      console.log(error.message);
-      return { msg: "error from util" };
-    }
+  try {
+    const url = `https://devapi.qweather.com/v7/weather/now?key=${process.env.HEFENG_KEY}&location=${location}`;
+    const data = await globalThis.fetch(url, { timeout: 6000 });
+    const jsonData = await data.json();
+    const result = {
+      time: new Date().getTime(),
+      temp: jsonData.now.temp,
+      msg: "success",
+      text: jsonData.now.text,
+    };
+    return result;
+  } catch (error) {
+    console.log(error.message);
+    return { msg: "error from util" };
   }
 };
 

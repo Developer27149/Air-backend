@@ -1,16 +1,13 @@
+const { default: axios } = require("axios");
 const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
+const { default: fetch } = require("node-fetch");
 const { getAllWallpaper, getAMsg, getWeather } = require("../util");
 
 router.get("/wallpapers", async (req, res) => {
-  if (globalThis.wallpapers.length > 0) {
-    res.send(globalThis.wallpapers);
-  } else {
-    const data = await getAllWallpaper();
-    globalThis.wallpapers = data;
-    res.send(data);
-  }
+  const data = await getAllWallpaper();
+  res.send(data);
 });
 
 router.get("/msg", (req, res) => {
@@ -30,6 +27,12 @@ router.get("/weather", async (req, res) => {
   const data = await getWeather(location);
   console.log(data);
   res.send(data);
+});
+
+router.get("/daily_wallpaper", async (req, res) => {
+  res.send({
+    url: "https://www.bing.com/az/hprichbg/rb/NarrowsZion_ZH-CN9686302838_1920x1080.jpg",
+  });
 });
 
 router.post("/login", (req, res) => {
