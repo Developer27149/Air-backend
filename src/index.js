@@ -2,21 +2,30 @@
 require("dotenv").config();
 const fetch = require("node-fetch");
 globalThis.fetch = fetch;
-
 const express = require("express");
 const expressJwt = require("express-jwt");
 const router = require("./routes");
 const compression = require("compression");
 const helmet = require("helmet");
+const { initNet163Cookie } = require("./util/index.js");
 const app = express();
 
+// 初始化网易云 cookie
+app.use(initNet163Cookie);
 // jwt
 app.use(
   expressJwt({
     secret: process.env.JWT,
     algorithms: ["HS256"],
   }).unless({
-    path: ["/login", "/msg", "/daily_wallpaper", "/weather", "/wallpapers"],
+    path: [
+      "/login",
+      "/msg",
+      "/daily_wallpaper",
+      "/weather",
+      "/wallpapers",
+      "/songs",
+    ],
   })
 );
 app.use(helmet()); // 常见漏洞保护

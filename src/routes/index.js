@@ -4,6 +4,12 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const { default: fetch } = require("node-fetch");
 const { getAllWallpaper, getAMsg, getWeather } = require("../util");
+const {
+  login_cellphone,
+  user_cloud,
+  user_cloud_detail,
+  song_url,
+} = require("NeteaseCloudMusicApi");
 
 router.get("/wallpapers", async (req, res) => {
   const data = await getAllWallpaper();
@@ -25,7 +31,6 @@ router.get("/test", (req, res) => {
 router.get("/weather", async (req, res) => {
   const location = req.query.location;
   const data = await getWeather(location);
-  console.log(data);
   res.send(data);
 });
 
@@ -66,6 +71,36 @@ router.get("/todo", (req, res) => {
       },
     ],
   });
+});
+
+router.get("/songs", async (req, res) => {
+  try {
+    const { body } = await user_cloud({
+      cookie: globalThis.cookie,
+    });
+    const songsData = body.data;
+    const songDetail = await Promise.all(
+      songsData.map((i) =>
+        song_url({
+          id: `${i.songId}`,
+          cookie: globalThis.cookie,
+        })
+      )
+    );
+    const result = songDetail.map((i, idx) => {
+      return {
+        songName: songsData[idx].songName,
+        picUrl: songsData[idx].simpleSong.al.picUrl,
+        url: i.body.data[0].url,
+        id: songsData[idx].songId,
+      };
+    });
+    res.send({ result });
+  } catch (error) {
+    res.send({
+      msg: "error - get songs fail.",
+    });
+  }
 });
 
 module.exports = router;

@@ -6,6 +6,7 @@
   "author": "youyiqin <564151947@qq.com>",
   "license": "MIT",
   "dependencies": {
+    "NeteaseCloudMusicApi": "^4.0.21",
     "axios": "^0.21.1",
     "compression": "^1.7.4",
     "dotenv": "^10.0.0",

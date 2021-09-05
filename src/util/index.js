@@ -1,4 +1,5 @@
 const { createApi } = require("unsplash-js");
+const { login_cellphone } = require("NeteaseCloudMusicApi");
 
 const Aaron = createApi({
   accessKey: process.env.UNSPLASH_ACCESS_KEY,
@@ -11,8 +12,10 @@ async function getAllWallpaper() {
   try {
     const res = await Aaron.collections.getPhotos({
       collectionId: process.env.COLLECTION_ID,
-      perPage: 365,
+      perPage: 40,
+      // page: 1,
     });
+    console.log(res.response.results.length);
     // console.log(res.response.results);
     return res.response.results.map((i) => {
       return {
@@ -45,17 +48,18 @@ const msgList = [
   "迟则生变",
   "勿妄自菲薄，无用",
   "或曾遗憾，不必后悔",
-  "更多的宽容给家人",
+  "给家人更多宽容和耐心",
   "控制自己",
   "免费最贵",
-  "学会拒绝",
+  "拒绝亦无不可",
   "也许你可以养一只狗子",
   "知易行难",
-  "聊天不必辩论",
-  "寻找自我价值",
+  "不必辩论",
+  "机会像雨点打来，而你一一闪过",
   "等价交换是宇宙法则",
-  "坚持原则",
-  "常联系",
+  "保持原则",
+  "朋友常联系",
+  "废话少说",
 ];
 const getAMsg = () => {
   const randomNum = ~~(Math.random() * msgList.length);
@@ -80,9 +84,25 @@ const getWeather = async (location) => {
   }
 };
 
+const initNet163Cookie = async (req, res, next = () => {}) => {
+  try {
+    // const result = await login_cellphone({
+    //   phone: process.env.PHONE,
+    //   password: process.env.NET163_PW,
+    // });
+    // globalThis.cookie = result.body.cookie;
+    globalThis.cookie = process.env.COOKIE;
+  } catch (error) {
+    console.log(error);
+  } finally {
+    next();
+  }
+};
+
 module.exports = {
   getAllWallpaper,
   isAuth,
   getAMsg,
   getWeather,
+  initNet163Cookie,
 };
