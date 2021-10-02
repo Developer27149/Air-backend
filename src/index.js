@@ -21,10 +21,10 @@ app.use(
     path: [
       "/login",
       "/msg",
-      "/daily_wallpaper",
       "/weather",
-      "/wallpapers",
+      "/wallpaper/all",
       "/songs",
+      "/wallpaper/random",
     ],
   })
 );

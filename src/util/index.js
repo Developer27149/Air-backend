@@ -41,24 +41,19 @@ const isAuth = (url) => {
 const msgList = [
   "照顾好自己",
   "潜龙勿用",
-  "模棱两可让人不喜",
   "熬夜伤神",
   "事和人都有两面",
   "说你所做的，做你所说的",
   "迟则生变",
-  "勿妄自菲薄，无用",
   "或曾遗憾，不必后悔",
   "给家人更多宽容和耐心",
   "控制自己",
   "免费最贵",
   "拒绝亦无不可",
-  "也许你可以养一只狗子",
-  "知易行难",
-  "不必辩论",
-  "机会像雨点打来，而你一一闪过",
-  "等价交换是宇宙法则",
+  "有时不必辩论",
+  "机会像雨点般打来，而你却一一闪过",
   "保持原则",
-  "朋友常联系",
+  "常联系",
   "废话少说",
 ];
 const getAMsg = () => {
@@ -99,10 +94,27 @@ const initNet163Cookie = async (req, res, next = () => {}) => {
   }
 };
 
+const getRandomImgUrl = async (option = {}) => {
+  try {
+    const { response, status } = await Aaron.photos.getRandom(option);
+    const defaultRes = {
+      full: "https://images.unsplash.com/photo-1527427337751-fdca2f128ce5?crop=entropy&cs=srgb&fm=jpg&ixid=MnwyNTM2NjJ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2MzMxNjc0NDA&ixlib=rb-1.2.1&q=85",
+    };
+    if (status === 200) {
+      return response?.urls || defaultRes;
+    } else {
+      return defaultRes;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   getAllWallpaper,
   isAuth,
   getAMsg,
   getWeather,
   initNet163Cookie,
+  getRandomImgUrl,
 };

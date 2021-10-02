@@ -3,7 +3,12 @@ const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const { default: fetch } = require("node-fetch");
-const { getAllWallpaper, getAMsg, getWeather } = require("../util");
+const {
+  getAllWallpaper,
+  getAMsg,
+  getWeather,
+  getRandomImgUrl,
+} = require("../util");
 const {
   login_cellphone,
   user_cloud,
@@ -22,22 +27,18 @@ router.get("/msg", (req, res) => {
   });
 });
 
-router.get("/test", (req, res) => {
-  res.send({
-    msg: "ok",
-  });
-});
-
 router.get("/weather", async (req, res) => {
   const location = req.query.location;
   const data = await getWeather(location);
   res.send(data);
 });
 
-router.get("/daily_wallpaper", async (req, res) => {
-  res.send({
-    url: "https://www.bing.com/az/hprichbg/rb/NarrowsZion_ZH-CN9686302838_1920x1080.jpg",
+router.get("/wallpaper/random", async (req, res) => {
+  const data = await getRandomImgUrl({
+    collections: "hkToSCaeZUE",
   });
+  console.log(data);
+  res.send(data);
 });
 
 router.post("/login", (req, res) => {
@@ -93,6 +94,7 @@ router.get("/songs", async (req, res) => {
         picUrl: songsData[idx].simpleSong.al.picUrl,
         url: i.body.data[0].url,
         id: songsData[idx].songId,
+        artist: songsData[idx].artist,
       };
     });
     res.send({ result });
