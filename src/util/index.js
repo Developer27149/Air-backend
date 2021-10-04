@@ -1,38 +1,37 @@
-const { createApi } = require("unsplash-js");
 const { login_cellphone } = require("NeteaseCloudMusicApi");
-
-const Aaron = createApi({
-  accessKey: process.env.UNSPLASH_ACCESS_KEY,
-  fetch: globalThis.fetch,
-});
+const { getAllPhoto } = require("./unsplash.js");
+const { insertMany, updateWithMany } = require("./db.js");
 
 // const client = axios
 
 async function getAllWallpaper() {
   try {
-    const res = await Aaron.collections.getPhotos({
-      collectionId: process.env.COLLECTION_ID,
-      perPage: 40,
-      // page: 1,
-    });
-    console.log(res.response.results.length);
-    // console.log(res.response.results);
-    return res.response.results.map((i) => {
-      return {
-        id: i.id,
-        url: i.urls.full + "&w=1920",
-        rawUrl: i.urls.raw,
-        smImgUrl: i.urls.small,
-        description: i.description,
-        createAt: i.created_at,
-      };
-    });
+    // return res.response.results.map((i) => {
+    //   return {
+    //     id: i.id,
+    //     url: i.urls.full + "&w=1920",
+    //     rawUrl: i.urls.raw,
+    //     smImgUrl: i.urls.small,
+    //     description: i.description,
+    //     createAt: i.created_at,
+    //     data: i,
+    //   };
+    // });
   } catch (error) {
     return {
       status: "fail",
     };
   }
 }
+
+const updateAllWallpaperFromUnsplash = async () => {
+  /**
+   * 1. get data
+   * 2. save to db
+   */
+  const data = await getAllPhoto();
+  await updateWithMany(data);
+};
 
 const isAuth = (url) => {
   return url?.query?.app === "air";
@@ -96,15 +95,15 @@ const initNet163Cookie = async (req, res, next = () => {}) => {
 
 const getRandomImgUrl = async (option = {}) => {
   try {
-    const { response, status } = await Aaron.photos.getRandom(option);
-    const defaultRes = {
-      full: "https://images.unsplash.com/photo-1527427337751-fdca2f128ce5?crop=entropy&cs=srgb&fm=jpg&ixid=MnwyNTM2NjJ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2MzMxNjc0NDA&ixlib=rb-1.2.1&q=85",
-    };
-    if (status === 200) {
-      return response?.urls || defaultRes;
-    } else {
-      return defaultRes;
-    }
+    // const { response, status } = await unsplashApi.photos.getRandom(option);
+    // const defaultRes = {
+    //   full: "https://images.unsplash.com/photo-1527427337751-fdca2f128ce5?crop=entropy&cs=srgb&fm=jpg&ixid=MnwyNTM2NjJ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2MzMxNjc0NDA&ixlib=rb-1.2.1&q=85",
+    // };
+    // if (status === 200) {
+    //   return response?.urls || defaultRes;
+    // } else {
+    //   return defaultRes;
+    // }
   } catch (error) {
     console.log(error);
   }
@@ -117,4 +116,5 @@ module.exports = {
   getWeather,
   initNet163Cookie,
   getRandomImgUrl,
+  updateAllWallpaperFromUnsplash,
 };

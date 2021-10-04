@@ -25,6 +25,7 @@ app.use(
       "/wallpaper/all",
       "/songs",
       "/wallpaper/random",
+      "/update/wallpapers",
     ],
   })
 );

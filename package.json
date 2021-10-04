@@ -15,9 +15,9 @@
     "firebase": "^8.10.0",
     "helmet": "^4.6.0",
     "jsonwebtoken": "^8.5.1",
+    "mongoist": "^2.5.3",
     "node-fetch": "^2.6.1",
-    "pm2": "^5.1.1",
-    "unsplash-js": "^7.0.15"
+    "pm2": "^5.1.1"
   },
   "scripts": {
     "dev": "pm2 start ./src/index.js"

@@ -8,6 +8,7 @@ const {
   getAMsg,
   getWeather,
   getRandomImgUrl,
+  updateAllWallpaperFromUnsplash,
 } = require("../util");
 const {
   login_cellphone,
@@ -15,11 +16,27 @@ const {
   user_cloud_detail,
   song_url,
 } = require("NeteaseCloudMusicApi");
+const { insertMany, dropWallpaper } = require("../util/db.js");
 
-router.get("/wallpapers", async (req, res) => {
+router.get("/wallpaper/all", async (req, res) => {
   const data = await getAllWallpaper();
+  // insertMany(data);
+  // dropWallpaper();
   res.send(data);
 });
+
+router.get("/update/wallpapers", async (req, res) => {
+  try {
+    await updateAllWallpaperFromUnsplash();
+    res.send({
+      ok: true,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.post("/wallpaper/:page", async (req, res) => {});
 
 router.get("/msg", (req, res) => {
   res.send({
@@ -37,7 +54,6 @@ router.get("/wallpaper/random", async (req, res) => {
   const data = await getRandomImgUrl({
     collections: "hkToSCaeZUE",
   });
-  console.log(data);
   res.send(data);
 });
 
