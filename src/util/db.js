@@ -27,28 +27,63 @@ async function dropWallpaper() {
   }
 }
 
-async function getWallpaper(count, limit) {
+async function getAllWallpaperData() {
   try {
-    const data = await db.wallpaper.find({}).count(25);
-    console.log(data);
+    return db.wallpaper.find();
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}
+
+async function getWallpaperByFilter(
+  skip = 0,
+  limit = 10,
+  filter = {
+    updated_at: 1,
+  }
+) {
+  try {
+    const data = await db.wallpaper
+      .findAsCursor()
+      .skip(skip)
+      .limit(limit)
+      .sort(filter)
+      .toArray();
+    return data;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}
+
+async function updateWithMany(data = []) {
+  try {
+    data.forEach(async (item) => {
+      const result = await db.wallpaper.findOne({ id: item.id });
+      if (!result) {
+        db.wallpaper.insertOne(item);
+      }
+    });
   } catch (error) {
     console.log(error);
   }
 }
 
-async function updateWithMany(data = []) {
-  data.forEach(async (item) => {
-    const result = await db.wallpaper.findOne({ id: item.id });
-    if (!result) {
-      db.wallpaper.insertOne(item);
-    }
-  });
+async function saveDailySentence(data) {
+  try {
+    db.sentence.insertMany(data);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 module.exports = {
   insertOne,
   insertMany,
   dropWallpaper,
-  getWallpaper,
+  getWallpaperByFilter,
   updateWithMany,
+  getAllWallpaperData,
+  saveDailySentence,
 };

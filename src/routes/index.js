@@ -1,10 +1,7 @@
-const { default: axios } = require("axios");
 const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
-const { default: fetch } = require("node-fetch");
 const {
-  getAllWallpaper,
   getAMsg,
   getWeather,
   getRandomImgUrl,
@@ -16,12 +13,14 @@ const {
   user_cloud_detail,
   song_url,
 } = require("NeteaseCloudMusicApi");
-const { insertMany, dropWallpaper } = require("../util/db.js");
+const {
+  dropWallpaper,
+  getWallpaperByFilter,
+  getAllWallpaperData,
+} = require("../util/db.js");
 
 router.get("/wallpaper/all", async (req, res) => {
-  const data = await getAllWallpaper();
-  // insertMany(data);
-  // dropWallpaper();
+  const data = await getAllWallpaperData();
   res.send(data);
 });
 

@@ -1,7 +1,5 @@
 // const express = require("express");
 require("dotenv").config();
-const fetch = require("node-fetch");
-globalThis.fetch = fetch;
 const express = require("express");
 const expressJwt = require("express-jwt");
 const router = require("./routes");

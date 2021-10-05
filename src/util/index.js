@@ -1,6 +1,6 @@
 const { login_cellphone } = require("NeteaseCloudMusicApi");
 const { getAllPhoto } = require("./unsplash.js");
-const { insertMany, updateWithMany } = require("./db.js");
+const { insertMany, updateWithMany, saveDailySentence } = require("./db.js");
 
 // const client = axios
 
@@ -35,29 +35,6 @@ const updateAllWallpaperFromUnsplash = async () => {
 
 const isAuth = (url) => {
   return url?.query?.app === "air";
-};
-
-const msgList = [
-  "照顾好自己",
-  "潜龙勿用",
-  "熬夜伤神",
-  "事和人都有两面",
-  "说你所做的，做你所说的",
-  "迟则生变",
-  "或曾遗憾，不必后悔",
-  "给家人更多宽容和耐心",
-  "控制自己",
-  "免费最贵",
-  "拒绝亦无不可",
-  "有时不必辩论",
-  "机会像雨点般打来，而你却一一闪过",
-  "保持原则",
-  "常联系",
-  "废话少说",
-];
-const getAMsg = () => {
-  const randomNum = ~~(Math.random() * msgList.length);
-  return msgList[randomNum];
 };
 
 const getWeather = async (location) => {
@@ -112,7 +89,6 @@ const getRandomImgUrl = async (option = {}) => {
 module.exports = {
   getAllWallpaper,
   isAuth,
-  getAMsg,
   getWeather,
   initNet163Cookie,
   getRandomImgUrl,
