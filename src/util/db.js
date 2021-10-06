@@ -44,13 +44,12 @@ async function getWallpaperByFilter(
   }
 ) {
   try {
-    const data = await db.wallpaper
+    const res = await db.wallpaper
       .findAsCursor()
       .skip(skip)
       .limit(limit)
-      .sort(filter)
-      .toArray();
-    return data;
+      .sort(filter);
+    return { data: await res.toArray(), hasNext: await res.hasNext() };
   } catch (error) {
     console.log(error);
     return [];

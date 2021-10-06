@@ -20,7 +20,7 @@ app.use(
       "/login",
       "/msg",
       "/weather",
-      "/wallpaper/all",
+      /wallpaper\/\d+/,
       "/songs",
       "/wallpaper/random",
       "/update/wallpapers",

@@ -18,6 +18,7 @@ const {
   getWallpaperByFilter,
   getAllWallpaperData,
 } = require("../util/db.js");
+const { wallpaperPage } = require("./wallpaper.js");
 
 router.get("/wallpaper/all", async (req, res) => {
   const data = await getAllWallpaperData();
@@ -35,7 +36,7 @@ router.get("/update/wallpapers", async (req, res) => {
   }
 });
 
-router.post("/wallpaper/:page", async (req, res) => {});
+router.get("/wallpaper/:num", wallpaperPage);
 
 router.get("/msg", (req, res) => {
   res.send({
