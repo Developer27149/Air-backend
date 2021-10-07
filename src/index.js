@@ -20,7 +20,10 @@ app.use(
       "/login",
       "/msg",
       "/weather",
-      /wallpaper\/\d+/,
+      {
+        url: /wallpaper\/\d+/,
+        methods: ["POST", "GET"],
+      },
       "/songs",
       "/wallpaper/random",
       "/update/wallpapers",

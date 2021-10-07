@@ -52,7 +52,30 @@ async function getWallpaperByFilter(
     return { data: await res.toArray(), hasNext: await res.hasNext() };
   } catch (error) {
     console.log(error);
-    return [];
+    return { data: [], hasNext: false };
+  }
+}
+
+async function getWallpaperByUnlessDislike(skip = 0, limit = 10, unlike = []) {
+  try {
+    const res = await db.wallpaper
+      .findAsCursor({
+        id: {
+          $nin: unlike,
+        },
+      })
+      .skip(skip)
+      .limit(limit)
+      .sort({
+        updated_at: 1,
+      });
+    return {
+      data: await res.toArray(),
+      hasNext: await res.hasNext(),
+    };
+  } catch (error) {
+    console.error(error);
+    return { data: [], hasNext: false };
   }
 }
 
@@ -85,4 +108,5 @@ module.exports = {
   updateWithMany,
   getAllWallpaperData,
   saveDailySentence,
+  getWallpaperByUnlessDislike,
 };
