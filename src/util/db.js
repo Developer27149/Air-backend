@@ -100,6 +100,20 @@ async function saveDailySentence(data) {
   }
 }
 
+async function getWallpaperUnlessExist(existArr = []) {
+  try {
+    const data = await db.wallpaper.find({
+      id: {
+        $nin: existArr,
+      },
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}
+
 module.exports = {
   insertOne,
   insertMany,
@@ -109,4 +123,5 @@ module.exports = {
   getAllWallpaperData,
   saveDailySentence,
   getWallpaperByUnlessDislike,
+  getWallpaperUnlessExist,
 };

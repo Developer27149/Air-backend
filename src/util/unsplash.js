@@ -22,7 +22,11 @@ module.exports = {
       return dataArr
         .filter((i) => i.status === "fulfilled")
         .map((i) => i.value.data)
-        .flat();
+        .flat()
+        .map((i) => {
+          i.updated_at = new Date().getTime();
+          return i;
+        });
     } catch (error) {
       console.log(error);
       return [];

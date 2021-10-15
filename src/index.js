@@ -21,12 +21,16 @@ app.use(
       "/msg",
       "/weather",
       {
-        url: /wallpaper\/\d+/,
+        url: /wallpaper\/page\/\d+/,
         methods: ["POST", "GET"],
       },
       "/songs",
       "/wallpaper/random",
       "/update/wallpapers",
+      {
+        url: "/wallpaper/newest",
+        methods: ["POST"],
+      },
     ],
   })
 );

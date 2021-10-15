@@ -1,6 +1,7 @@
 const {
   getWallpaperByFilter,
   getWallpaperByUnlessDislike,
+  getWallpaperUnlessExist,
 } = require("../util/db.js");
 
 /**
@@ -29,7 +30,7 @@ const wallpaperPage = async (req, res) => {
 const wallpaperPageUnlessDislike = async (req, res) => {
   try {
     const pageNum = parseInt(req.params.num) - 1;
-    const unlikeArr = req.body?.unlike ?? ["uWFFw7leQNI"];
+    const unlikeArr = req.body?.unlike ?? [];
     const data = await getWallpaperByUnlessDislike(10 * pageNum, 1, unlikeArr);
     console.log(data);
     res.send({});
@@ -38,4 +39,21 @@ const wallpaperPageUnlessDislike = async (req, res) => {
   }
 };
 
-module.exports = { wallpaperPage, wallpaperPageUnlessDislike };
+const getNewestWallpaperAtClient = async (req, res) => {
+  try {
+    const existArr = req.body?.exist ?? [];
+    const data = await getWallpaperUnlessExist(existArr);
+    res.send({
+      data,
+    });
+  } catch (error) {
+    console.log(error);
+    res.send({ data: [] });
+  }
+};
+
+module.exports = {
+  wallpaperPage,
+  wallpaperPageUnlessDislike,
+  getNewestWallpaperAtClient,
+};
