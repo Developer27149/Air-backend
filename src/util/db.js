@@ -114,7 +114,17 @@ async function getWallpaperUnlessExist(existArr = []) {
   }
 }
 
+async function getCommentById(id) {
+  try {
+    const data = await db.comment.findOne({ id });
+    return data ?? [];
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 module.exports = {
+  db,
   insertOne,
   insertMany,
   dropWallpaper,
@@ -124,4 +134,5 @@ module.exports = {
   saveDailySentence,
   getWallpaperByUnlessDislike,
   getWallpaperUnlessExist,
+  getCommentById,
 };

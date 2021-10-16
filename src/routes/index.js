@@ -22,6 +22,7 @@ const {
   wallpaperPage,
   wallpaperPageUnlessDislike,
   getNewestWallpaperAtClient,
+  getWallpaperComment,
 } = require("./wallpaper.js");
 
 router.get("/wallpaper/all", async (req, res) => {
@@ -40,6 +41,7 @@ router.get("/update/wallpapers", async (req, res) => {
   }
 });
 
+router.get("/comment/:id", getWallpaperComment);
 router.get("/wallpaper/page/:num", wallpaperPage);
 router.post("/wallpaper/page/:num", wallpaperPageUnlessDislike);
 router.post("/wallpaper/newest", getNewestWallpaperAtClient);
