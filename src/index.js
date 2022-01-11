@@ -24,10 +24,6 @@ app.use(
         url: /wallpaper\/page\/\d+/,
         methods: ["POST", "GET"],
       },
-      {
-        url: /comment\/.+$/,
-        methods: ["GET"],
-      },
       "/songs",
       "/wallpaper/random",
       "/update/wallpapers",

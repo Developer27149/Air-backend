@@ -7,17 +7,8 @@ const {
   getRandomImgUrl,
   updateAllWallpaperFromUnsplash,
 } = require("../util");
-const {
-  login_cellphone,
-  user_cloud,
-  user_cloud_detail,
-  song_url,
-} = require("NeteaseCloudMusicApi");
-const {
-  dropWallpaper,
-  getWallpaperByFilter,
-  getAllWallpaperData,
-} = require("../util/db.js");
+const { user_cloud, song_url } = require("NeteaseCloudMusicApi");
+const { getAllWallpaperData } = require("../util/db.js");
 const {
   wallpaperPage,
   wallpaperPageUnlessDislike,
@@ -41,7 +32,6 @@ router.get("/update/wallpapers", async (req, res) => {
   }
 });
 
-router.get("/comment/:id", getWallpaperComment);
 router.get("/wallpaper/page/:num", wallpaperPage);
 router.post("/wallpaper/page/:num", wallpaperPageUnlessDislike);
 router.post("/wallpaper/newest", getNewestWallpaperAtClient);
